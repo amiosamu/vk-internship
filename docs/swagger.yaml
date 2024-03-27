@@ -1,0 +1,278 @@
+basePath: /
+definitions:
+  v1.ErrorResponse:
+    properties:
+      error:
+        type: string
+    type: object
+  v1.advertisementRoutes:
+    properties:
+      authService: {}
+    type: object
+  v1.authRoutes:
+    type: object
+  v1.createAdvertisementRequest:
+    properties:
+      description:
+        type: string
+      pictures:
+        items:
+          type: string
+        type: array
+      price:
+        type: number
+      title:
+        type: string
+    required:
+    - description
+    - pictures
+    - price
+    - title
+    type: object
+  v1.createAdvertisementResponse:
+    properties:
+      code:
+        type: integer
+      id:
+        type: string
+    type: object
+  v1.getAdvertisementResponse:
+    properties:
+      created_at:
+        type: string
+      description:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      pictures:
+        items:
+          type: string
+        type: array
+      price:
+        type: number
+    type: object
+  v1.signInInput:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  v1.signUpInput:
+    properties:
+      email:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+      surname:
+        type: string
+    required:
+    - email
+    - name
+    - password
+    - surname
+    type: object
+host: localhost:8000
+info:
+  contact: {}
+  description: Test assignment from VK for a Backend Developer position
+  title: Marketplace Backend API
+  version: 1.0.0
+paths:
+  /api/v1/advertisements/:
+    get:
+      description: Get all advertisements
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/v1.advertisementRoutes'
+      summary: Get advertisement
+      tags:
+      - advertisements
+  /api/v1/advertisements/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get advertisement by ID
+      parameters:
+      - description: Advertisement ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/v1.getAdvertisementResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/v1.getAdvertisementResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/v1.getAdvertisementResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/v1.getAdvertisementResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/v1.getAdvertisementResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Get advertisement
+      tags:
+      - advertisements
+  /api/v1/advertisements/create:
+    post:
+      consumes:
+      - application/json
+      description: Create advertisement
+      parameters:
+      - description: Advertisement Request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/v1.createAdvertisementRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/v1.createAdvertisementResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/v1.createAdvertisementResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/v1.createAdvertisementResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/v1.createAdvertisementResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/v1.createAdvertisementResponse'
+      security:
+      - JWT: []
+      summary: Create Advertisement
+      tags:
+      - advertisements
+  /api/v1/advertisements/user/{id}:
+    get:
+      description: Get advertisements created by a user
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/v1.getAdvertisementResponse'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/v1.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/v1.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/v1.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/v1.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Get advertisements by user ID
+      tags:
+      - advertisements
+  /auth/sign-in:
+    post:
+      consumes:
+      - application/json
+      description: Sign in
+      parameters:
+      - description: input
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/v1.signInInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/v1.authRoutes'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/v1.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/v1.ErrorResponse'
+      summary: Sign in
+      tags:
+      - auth
+  /auth/sign-up:
+    post:
+      consumes:
+      - application/json
+      description: User sign up
+      parameters:
+      - description: input
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/v1.signUpInput'
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/v1.authRoutes'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/v1.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/v1.ErrorResponse'
+      summary: Sign Up
+      tags:
+      - auth
+swagger: "2.0"
