@@ -46,6 +46,8 @@ definitions:
         type: string
       name:
         type: string
+      owner:
+        type: string
       pictures:
         items:
           type: string
@@ -89,6 +91,31 @@ paths:
   /api/v1/advertisements/:
     get:
       description: Get all advertisements
+      parameters:
+      - description: Page
+        in: query
+        name: page
+        type: string
+      - description: Limit
+        in: query
+        name: limit
+        type: string
+      - description: Sort By
+        in: query
+        name: sortBy
+        type: string
+      - description: SortOrder
+        in: query
+        name: sortOrder
+        type: string
+      - description: minPrice
+        in: query
+        name: minPrice
+        type: string
+      - description: maxPrice
+        in: query
+        name: maxPrice
+        type: string
       produces:
       - application/json
       responses:
@@ -96,6 +123,8 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/v1.advertisementRoutes'
+      security:
+      - Bearer: []
       summary: Get advertisement
       tags:
       - advertisements
@@ -109,7 +138,7 @@ paths:
         in: path
         name: id
         required: true
-        type: integer
+        type: string
       produces:
       - application/json
       responses:

@@ -17,6 +17,11 @@ const docTemplate = `{
     "paths": {
         "/api/v1/advertisements/": {
             "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Get all advertisements",
                 "produces": [
                     "application/json"
@@ -25,6 +30,44 @@ const docTemplate = `{
                     "advertisements"
                 ],
                 "summary": "Get advertisement",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Page",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Limit",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Sort By",
+                        "name": "sortBy",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "SortOrder",
+                        "name": "sortOrder",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "minPrice",
+                        "name": "minPrice",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "maxPrice",
+                        "name": "maxPrice",
+                        "in": "query"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -179,7 +222,7 @@ const docTemplate = `{
                 "summary": "Get advertisement",
                 "parameters": [
                     {
-                        "type": "integer",
+                        "type": "string",
                         "description": "Advertisement ID",
                         "name": "id",
                         "in": "path",
@@ -378,6 +421,9 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "name": {
+                    "type": "string"
+                },
+                "owner": {
                     "type": "string"
                 },
                 "pictures": {

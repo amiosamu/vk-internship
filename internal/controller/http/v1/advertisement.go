@@ -162,7 +162,7 @@ func (r *advertisementRoutes) create(ctx *gin.Context) {
 // @Accept json
 // @Produce json
 // @Security ApiKeyAuth
-// @Param id path int true "Advertisement ID"
+// @Param id path string true "Advertisement ID"
 // @Success 200 {object} getAdvertisementResponse
 // @Failure 400 {object} getAdvertisementResponse
 // @Failure 403 {object} getAdvertisementResponse
@@ -216,6 +216,15 @@ func (r *advertisementRoutes) get(ctx *gin.Context) {
 // @Description Get all advertisements
 // @Tags advertisements
 // @Produce json
+// @Security Bearer
+// @securityDefinitions.apikey Bearer
+// @in header
+// @Param page query string false "Page"
+// @Param limit query string false "Limit"
+// @Param sortBy query string false "Sort By"
+// @Param sortOrder query string false "SortOrder"
+// @Param minPrice query string false "minPrice"
+// @Param maxPrice query string false "maxPrice"
 // @Success 200 {object} v1.advertisementRoutes.getAll.response
 // @Router /api/v1/advertisements/ [get]
 func (r *advertisementRoutes) getAll(ctx *gin.Context) {
